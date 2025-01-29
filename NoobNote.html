@@ -148,66 +148,41 @@
 
         <div class="column">
             <h2>Classes et Élèves</h2>
-
-            <div class="class">
-                <div class="dropdown">
-                    <label for="classe-eleves">Sélectionner une classe :</label>
-                    <select id="classe-eleves" onchange="showStudents(this.value)">
-                        <option value="6A">Classe 6A</option>
-                        <option value="5B">Classe 5B</option>
-                        <option value="4C">Classe 4C</option>
-                    </select>
-                </div>
-                <div id="students-6A" class="student-list">
-                    <div class="student">
-                        <span>Philippe BABA</span>
-                        <button>Donner une note</button>
-                        <button class="retard">Marquer en retard</button>
-                    </div>
-                    <div class="student">
-                        <span>Claudio REIBAUD</span>
-                        <button>Donner une note</button>
-                        <button class="retard">Marquer en retard</button>
-                    </div>
-                </div>
-
-                <div id="students-5B" class="student-list" style="display: none;">
-                    <div class="student">
-                        <span>Léo BOSSY</span>
-                        <button>Donner une note</button>
-                        <button class="retard">Marquer en retard</button>
-                    </div>
-                    <div class="student">
-                        <span>Kerrian CHABBERT</span>
-                        <button>Donner une note</button>
-                        <button class="retard">Marquer en retard</button>
-                    </div>
-                </div>
-
-                <div id="students-4C" class="student-list" style="display: none;">
-                    <div class="student">
-                        <span>Lancelot FRANCONY</span>
-                        <button>Donner une note</button>
-                        <button class="retard">Marquer en retard</button>
-                    </div>
-                    <div class="student">
-                        <span>Taniel ÇAKICI</span>
-                        <button>Donner une note</button>
-                        <button class="retard">Marquer en retard</button>
-                    </div>
-                </div>
-            </div>
-
-            <h2>Notes, Retards et Absences des Élèves</h2>
             <div class="dropdown">
-                <label for="classe-rapport">Sélectionner une classe :</label>
-                <select id="classe-rapport" onchange="showReport(this.value)">
+                <label for="classe-eleves">Sélectionner une classe :</label>
+                <select id="classe-eleves" onchange="showStudents(this.value)">
+                    <option value="">-- Choisir --</option>
                     <option value="6A">Classe 6A</option>
                     <option value="5B">Classe 5B</option>
                     <option value="4C">Classe 4C</option>
                 </select>
             </div>
-            <div id="report" class="notes-container">
+            <div id="students-6A" class="student-list" style="display: none;">
+                <p>Philippe BABA</p>
+                <p>Claudio REIBAUD</p>
+            </div>
+            <div id="students-5B" class="student-list" style="display: none;">
+                <p>Lancelot FRANCONY</p>
+                <p>Taniel ÇAKICI</p>
+            </div>
+            <div id="students-4C" class="student-list" style="display: none;">
+                <p>Kerrian CHABBERT</p>
+                <p>Léo BOSSY</p>
+            </div>
+        </div>
+        <div class="column">
+            <h2>Notes, Retards et Absences des Élèves</h2>
+            <div class="dropdown">
+                <label for="classe-rapport">Sélectionner une classe :</label>
+                <select id="classe-rapport" onchange="showReport(this.value)">
+                    <option value="">-- Choisir --</option>
+                    <option value="6A">Classe 6A</option>
+                    <option value="5B">Classe 5B</option>
+                    <option value="4C">Classe 4C</option>
+                </select>
+            </div>
+            <div id="report-6A" class="notes-container">
+                <h3>Rapport Classe 6A</h3>
                 <table>
                     <thead>
                         <tr>
@@ -216,17 +191,22 @@
                             <th>Moyenne</th>
                             <th>Retards</th>
                             <th>Absences</th>
-                            <th>Heures d'absences</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Élève 1</td>
-                            <td>12, 15, 14</td>
-                            <td>13.7</td>
-                            <td>2</td>
+                            <td>Philippe BABA</td>
+                            <td>14, 16, 13</td>
+                            <td>14.3</td>
                             <td>1</td>
-                            <td>3h</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>Claudio REIBAUD</td>
+                            <td>15, 14, 16</td>
+                            <td>15.0</td>
+                            <td>0</td>
+                            <td>1</td>
                         </tr>
                     </tbody>
                 </table>
@@ -236,11 +216,15 @@
     <script>
         function showStudents(classId) {
             document.querySelectorAll('.student-list').forEach(list => list.style.display = 'none');
-            document.getElementById('students-' + classId).style.display = 'block';
+            if (classId) {
+                document.getElementById('students-' + classId).style.display = 'block';
+            }
         }
-
         function showReport(classId) {
-            // Implement logic to display class report based on the selected class
+            document.querySelectorAll('.notes-container').forEach(report => report.style.display = 'none');
+            if (classId) {
+                document.getElementById('report-' + classId).style.display = 'block';
+            }
         }
     </script>
 </body>
