@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Professeur - Mathématiques</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d3d3d3; /* Gris plus foncé */
+        }
+        header {
+            background-color: #121b2c;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        .column {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        .schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .schedule-item {
+            background-color: #eaeaea;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .list-item {
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 18px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .class {
+            margin-bottom: 20px;
+        }
+        .dropdown {
+            margin-bottom: 15px;
+        }
+        .dropdown select {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .student-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .student {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .student button {
+            background-color: #121b2c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .student button.retard {
+            background-color: #f44336;
+        }
+        .notes-container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #121b2c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Espace Professeur - Mathématiques</h1>
+    </header>
+    <div class="container">
+        <div class="column">
+            <h2>Emploi du Temps</h2>
+            <div class="schedule">
+                <div class="schedule-item">8h00 - Classe 6A (Salle 101)</div>
+                <div class="schedule-item">9h00 - Classe 5B (Salle 102)</div>
+                <div class="schedule-item">10h00 - Classe 4C (Salle 103)</div>
+                <div class="schedule-item">13h30 - Classe 6A (Salle 101)</div>
+                <div class="schedule-item">15h30 - Classe 5B (Salle 102)</div>
+            </div>
+        </div>
+
+        <div class="column">
+            <h2>Travail à Faire</h2>
+            <div class="dropdown">
+                <label for="classe-travail">Sélectionner une classe :</label>
+                <select id="classe-travail">
+                    <option value="6A">Classe 6A</option>
+                    <option value="5B">Classe 5B</option>
+                    <option value="4C">Classe 4C</option>
+                </select>
+            </div>
+            <textarea placeholder="Rédiger le devoir..." rows="5" style="width: 100%;"></textarea>
+            <button style="margin-top: 10px; background-color: #121b2c; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Donner le devoir</button>
+
+            <h2>Dernières Ressources Pédagogiques</h2>
+            <div class="dropdown">
+                <label for="classe-ressource">Sélectionner une classe :</label>
+                <select id="classe-ressource">
+                    <option value="6A">Classe 6A</option>
+                    <option value="5B">Classe 5B</option>
+                    <option value="4C">Classe 4C</option>
+                </select>
+            </div>
+            <input type="file" style="margin-bottom: 10px;">
+            <textarea placeholder="Résumé de la ressource..." rows="3" style="width: 100%;"></textarea>
+            <button style="margin-top: 10px; background-color: #121b2c; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Déposer la ressource</button>
+            <h3>Fichiers déposés :</h3>
+            <ul>
+                <li class="list-item">Classe 6A - Support1.pdf</li>
+                <li class="list-item">Classe 5B - Support2.docx</li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Classes et Élèves</h2>
+
+            <div class="class">
+                <div class="dropdown">
+                    <label for="classe-eleves">Sélectionner une classe :</label>
+                    <select id="classe-eleves" onchange="showStudents(this.value)">
+                        <option value="6A">Classe 6A</option>
+                        <option value="5B">Classe 5B</option>
+                        <option value="4C">Classe 4C</option>
+                    </select>
+                </div>
+                <div id="students-6A" class="student-list">
+                    <div class="student">
+                        <span>Philippe BABA</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                    <div class="student">
+                        <span>Claudio REIBAUD</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                </div>
+
+                <div id="students-5B" class="student-list" style="display: none;">
+                    <div class="student">
+                        <span>Léo BOSSY</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                    <div class="student">
+                        <span>Kerrian CHABBERT</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                </div>
+
+                <div id="students-4C" class="student-list" style="display: none;">
+                    <div class="student">
+                        <span>Lancelot FRANCONY</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                    <div class="student">
+                        <span>Taniel ÇAKICI</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Notes, Retards et Absences des Élèves</h2>
+            <div class="dropdown">
+                <label for="classe-rapport">Sélectionner une classe :</label>
+                <select id="classe-rapport" onchange="showReport(this.value)">
+                    <option value="6A">Classe 6A</option>
+                    <option value="5B">Classe 5B</option>
+                    <option value="4C">Classe 4C</option>
+                </select>
+            </div>
+            <div id="report" class="notes-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Élève</th>
+                            <th>Notes</th>
+                            <th>Moyenne</th>
+                            <th>Retards</th>
+                            <th>Absences</th>
+                            <th>Heures d'absences</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Élève 1</td>
+                            <td>12, 15, 14</td>
+                            <td>13.7</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>3h</td>
+                        </tr>
+                        <!-- Add more rows dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showStudents(classId) {
+            document.querySelectorAll('.student-list').forEach(list => list.style.display = 'none');
+            document.getElementById('students-' + classId).style.display = 'block';
+        }
+
+        function showReport(classId) {
+            // Implement logic to display class report based on the selected class
+        }
+    </script>
+</body>
+</html>
