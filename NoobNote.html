@@ -126,6 +126,7 @@
             </div>
             <textarea placeholder="Rédiger le devoir..." rows="5" style="width: 100%;"></textarea>
             <button style="margin-top: 10px; background-color: #121b2c; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Donner le devoir</button>
+
             <h2>Dernières Ressources Pédagogiques</h2>
             <div class="dropdown">
                 <label for="classe-ressource">Sélectionner une classe :</label>
@@ -138,6 +139,98 @@
             <input type="file" style="margin-bottom: 10px;">
             <textarea placeholder="Résumé de la ressource..." rows="3" style="width: 100%;"></textarea>
             <button style="margin-top: 10px; background-color: #121b2c; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Déposer la ressource</button>
+            <h3>Fichiers déposés :</h3>
+            <ul>
+                <li class="list-item">Classe 6A - Support1.pdf</li>
+                <li class="list-item">Classe 5B - Support2.docx</li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Classes et Élèves</h2>
+
+            <div class="class">
+                <div class="dropdown">
+                    <label for="classe-eleves">Sélectionner une classe :</label>
+                    <select id="classe-eleves" onchange="showStudents(this.value)">
+                        <option value="6A">Classe 6A</option>
+                        <option value="5B">Classe 5B</option>
+                        <option value="4C">Classe 4C</option>
+                    </select>
+                </div>
+                <div id="students-6A" class="student-list">
+                    <div class="student">
+                        <span>Philippe BABA</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                    <div class="student">
+                        <span>Claudio REIBAUD</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                </div>
+
+                <div id="students-5B" class="student-list" style="display: none;">
+                    <div class="student">
+                        <span>Léo BOSSY</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                    <div class="student">
+                        <span>Kerrian CHABBERT</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                </div>
+
+                <div id="students-4C" class="student-list" style="display: none;">
+                    <div class="student">
+                        <span>Lancelot FRANCONY</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                    <div class="student">
+                        <span>Taniel ÇAKICI</span>
+                        <button>Donner une note</button>
+                        <button class="retard">Marquer en retard</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Notes, Retards et Absences des Élèves</h2>
+            <div class="dropdown">
+                <label for="classe-rapport">Sélectionner une classe :</label>
+                <select id="classe-rapport" onchange="showReport(this.value)">
+                    <option value="6A">Classe 6A</option>
+                    <option value="5B">Classe 5B</option>
+                    <option value="4C">Classe 4C</option>
+                </select>
+            </div>
+            <div id="report" class="notes-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Élève</th>
+                            <th>Notes</th>
+                            <th>Moyenne</th>
+                            <th>Retards</th>
+                            <th>Absences</th>
+                            <th>Heures d'absences</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Élève 1</td>
+                            <td>12, 15, 14</td>
+                            <td>13.7</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>3h</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script>
@@ -147,6 +240,7 @@
         }
 
         function showReport(classId) {
+            // Implement logic to display class report based on the selected class
         }
     </script>
 </body>
