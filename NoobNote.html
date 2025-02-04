@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,265 +10,277 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
+            background-color: #f4f4f9;
         }
+
         header {
             background-color: #121b2c;
             color: white;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
+            font-size: 24px;
         }
+
         .container {
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
             gap: 20px;
             padding: 20px;
         }
+
         .column {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
         }
-        .schedule {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+
+        .column:hover {
+            transform: translateY(-3px);
         }
-        .schedule-item {
-            background-color: #eaeaea;
+
+        h2 {
+            font-size: 20px;
+            border-bottom: 3px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .button {
+            background-color: #121b2c;
+            color: white;
+            padding: 12px 20px;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .button:hover {
+            background-color: #1e2d4a;
+            border-color: white;
+            box-shadow: 0 0 8px white;
+            text-shadow: 0 0 8px white;
+            transform: scale(1.02);
+        }
+
+        select {
+            width: 100%;
             padding: 10px;
-            border-radius: 4px;
+            margin-top: 5px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
             font-size: 14px;
         }
-        .list-item {
-            margin-bottom: 10px;
+
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            z-index: 1000;
+            width: 300px;
         }
-        h2 {
-            font-size: 18px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
+
+        .popup h3 {
+            margin-top: 0;
         }
-        .class {
-            margin-bottom: 20px;
+
+        .popup button {
+            margin-top: 10px;
         }
-        .dropdown {
-            margin-bottom: 15px;
-        }
-        .dropdown select {
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-        .student-list {
-            max-height: 150px;
-            overflow-y: auto;
-        }
-        .student {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        .student button {
-            background-color: #121b2c;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px;
-            cursor: pointer;
-        }
-        .student button.retard {
-            background-color: #f44336;
-        }
-        .notes-container {
-            margin-top: 20px;
-        }
-        table {
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-collapse: collapse;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #121b2c;
-            color: white;
+
+        .notes-container {
+            display: none;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Espace Professeur - Mathématiques</h1>
     </header>
+
     <div class="container">
         <div class="column">
             <h2>Emploi du Temps</h2>
             <div class="schedule">
-                <div class="schedule-item">8h00 - Classe 6A (Salle 101)</div>
-                <div class="schedule-item">9h00 - Classe 5B (Salle 102)</div>
-                <div class="schedule-item">10h00 - Classe 4C (Salle 103)</div>
-                <div class="schedule-item">13h30 - Classe 6A (Salle 101)</div>
-                <div class="schedule-item">15h30 - Classe 5B (Salle 102)</div>
+                <p>8h00 - Classe 6A (Salle 101)</p>
+                <p>9h00 - Classe 5B (Salle 102)</p>
+                <p>10h00 - Classe 4C (Salle 103)</p>
+                <p>13h30 - Classe 6A (Salle 101)</p>
+                <p>15h30 - Classe 5B (Salle 102)</p>
             </div>
         </div>
-
         <div class="column">
             <h2>Travail à Faire</h2>
-            <div class="dropdown">
-                <label for="classe-travail">Sélectionner une classe :</label>
-                <select id="classe-travail">
-                    <option value="6A">Classe 6A</option>
-                    <option value="5B">Classe 5B</option>
-                    <option value="4C">Classe 4C</option>
-                </select>
-            </div>
-            <textarea placeholder="Rédiger le devoir..." rows="5" style="width: 100%;"></textarea>
-            <button style="margin-top: 10px; background-color: #121b2c; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Donner le devoir</button>
-
-            <h2>Dernières Ressources Pédagogiques</h2>
-            <div class="dropdown">
-                <label for="classe-ressource">Sélectionner une classe :</label>
-                <select id="classe-ressource">
-                    <option value="6A">Classe 6A</option>
-                    <option value="5B">Classe 5B</option>
-                    <option value="4C">Classe 4C</option>
-                </select>
-            </div>
-            <input type="file" style="margin-bottom: 10px;">
-            <textarea placeholder="Résumé de la ressource..." rows="3" style="width: 100%;"></textarea>
-            <button style="margin-top: 10px; background-color: #121b2c; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Déposer la ressource</button>
-            <h3>Fichiers déposés :</h3>
-            <ul>
-                <li class="list-item">Classe 6A - Support1.pdf</li>
-                <li class="list-item">Classe 5B - Support2.docx</li>
-            </ul>
+            <textarea placeholder="Rédiger le devoir..." rows="5"></textarea>
+            <button class="button" style="margin-top: 10px;">Donner le devoir</button>
         </div>
+        <script>
+            const students = {
+                "6A": ["Philippe BABA", "Claudio REIBAUD"],
+                "5B": ["Lancelot FRANCONY", "Taniel ÇAKICI"],
+                "4C": ["Kerrian CHABBERT", "Léo BOSSY"]
+            };
+    
+            function populateStudents(classId) {
+                const studentSelect = document.getElementById('eleve-gestion');
+                const actionButton = document.getElementById('action-button');
+    
+                studentSelect.style.display = 'none';
+                actionButton.style.display = 'none';
+    
+                if (classId && students[classId]) {
+                    studentSelect.innerHTML = students[classId]
+                        .map(student => `<option value="${student}">${student}</option>`)
+                        .join('');
+                    studentSelect.style.display = 'block';
+                    actionButton.style.display = 'block';
+                }
+            }
+    
+            function openPopup() {
+                document.getElementById('popup').style.display = 'block';
+                document.getElementById('overlay').style.display = 'block';
+            }
+    
+            function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+            }
+    
+            function submitAction() {
+                const selectedClass = document.getElementById('classe-gestion').value;
+                const selectedStudent = document.getElementById('eleve-gestion').value;
+                const action = document.getElementById('action-select').value;
+                const comment = document.getElementById('action-comment').value;
+    
+                if (!selectedClass || !selectedStudent || !action) {
+                    alert('Veuillez remplir toutes les informations.');
+                    return;
+                }
+    
+                alert(`Action enregistrée :\nClasse : ${selectedClass}\nÉlève : ${selectedStudent}\nAction : ${action}\nCommentaire : ${comment}`);
+                closePopup();
+            }
+        
+        </script>
+        <div class="column">
+            <h2>Gestion des Élèves</h2>
+            <select id="classe-gestion" onchange="populateStudents(this.value)">
+                <option value="">-- Choisir une classe --</option>
+                <option value="6A">Classe 6A</option>
+                <option value="5B">Classe 5B</option>
+                <option value="4C">Classe 4C</option>
+            </select>
 
-        <div class="column">
-            <h2>Classes et Élèves</h2>
-            <div class="dropdown">
-                <label for="classe-eleves">Sélectionner une classe :</label>
-                <select id="classe-eleves" onchange="showStudents(this.value)">
-                    <option value="">-- Choisir --</option>
-                    <option value="6A">Classe 6A</option>
-                    <option value="5B">Classe 5B</option>
-                    <option value="4C">Classe 4C</option>
-                </select>
-            </div>
-            <div id="students-6A" class="student-list" style="display: none;">
-                <p>Philippe BABA</p>
-                <p>Claudio REIBAUD</p>
-            </div>
-            <div id="students-5B" class="student-list" style="display: none;">
-                <p>Lancelot FRANCONY</p>
-                <p>Taniel ÇAKICI</p>
-            </div>
-            <div id="students-4C" class="student-list" style="display: none;">
-                <p>Kerrian CHABBERT</p>
-                <p>Léo BOSSY</p>
-            </div>
-        </div>
-        <div class="column">
-            <h2>Notes, Retards et Absences des Élèves</h2>
-            <div class="dropdown">
-                <label for="classe-rapport">Sélectionner une classe :</label>
-                <select id="classe-rapport" onchange="showReport(this.value)">
-                    <option value="">-- Choisir --</option>
-                    <option value="6A">Classe 6A</option>
-                    <option value="5B">Classe 5B</option>
-                    <option value="4C">Classe 4C</option>
-                </select>
-            </div>
-            <div id="report-6A" class="notes-container">
-                <h3>Rapport Classe 6A</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Élève</th>
-                            <th>Notes</th>
-                            <th>Moyenne</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Philippe BABA</td>
-                            <td>14, 16, 13</td>
-                            <td>14.3</td>
-                        </tr>
-                        <tr>
-                            <td>Claudio REIBAUD</td>
-                            <td>15, 14, 16</td>
-                            <td>15.0</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="report-5B" class="notes-container">
-                <h3>Rapport Classe 5B</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Élève</th>
-                            <th>Notes</th>
-                            <th>Moyenne</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Lancelot FRANCONY</td>
-                            <td>12, 14, 11</td>
-                            <td>12.3</td>
-                        </tr>
-                        <tr>
-                            <td>Taniel ÇAKICI</td>
-                            <td>10, 9, 12</td>
-                            <td>10.3</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="report-4C" class="notes-container">
-                <h3>Rapport Classe 4C</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Élève</th>
-                            <th>Notes</th>
-                            <th>Moyenne</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Kerrian CHABBERT</td>
-                            <td>17, 18, 19</td>
-                            <td>18.0</td>
-                        </tr>
-                        <tr>
-                            <td>Léo BOSSY</td>
-                            <td>14, 15, 13</td>
-                            <td>14.0</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <select id="eleve-gestion" style="margin-top: 10px; display: none;"></select>
+
+            <button class="button" style="margin-top: 10px; display: none;" id="action-button" onclick="openPopup()">Choisir une action</button>
         </div>
     </div>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+    <div class="popup" id="popup">
+        <h3>Action sur l'élève</h3>
+        <select id="action-select">
+            <option value="retard">Mettre en retard</option>
+            <option value="absence">Marquer comme absent</option>
+            <option value="retenue">Mettre en retenue</option>
+            <option value="exclure">Exclure du cours</option>
+        </select>
+        <textarea id="action-comment" placeholder="Ajouter un commentaire (optionnel)" rows="5" style="margin-top: 10px;"></textarea>
+        <button class="button" onclick="submitAction()">Valider</button>
+    </div>
     <script>
-        function showStudents(classId) {
-            document.querySelectorAll('.student-list').forEach(list => list.style.display = 'none');
-            if (classId) {
-                document.getElementById('students-' + classId).style.display = 'block';
+        function filterClass() {
+        const selectedClass = document.getElementById('class-filter').value;
+        const rows = document.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            if (selectedClass === "all" || row.getAttribute("data-class") === selectedClass) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
             }
+        });
+    }
+
+function showReport(classId) {
+    document.querySelectorAll('.notes-container').forEach(report => report.style.display = 'none');
+    if (classId) document.getElementById('report-' + classId).style.display = 'block';
+}
+</script>
+<div class="container">
+    <div class="column" style="grid-column: 1 / -1;">
+        <div class="student-list">
+            <h2>Liste des élèves</h2>
+            <select id="classe-selection">
+                <option value="">-- Choisir une classe --</option>
+                <option value="6A">Classe 6A</option>
+                <option value="5B">Classe 5B</option>
+                <option value="4C">Classe 4C</option>
+            </select>
+            <div id="eleve-details" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const eleves = {
+        "6A": [
+            { nom: "Philippe BABA", notes: "15, 18, 14", retards: 2, absences: 1 },
+            { nom: "Claudio REIBAUD", notes: "12, 10, 14", retards: 0, absences: 0 },
+        ],
+        "5B": [
+            { nom: "Lancelot FRANCONY", notes: "16, 19, 17", retards: 1, absences: 2 },
+            { nom: "Taniel ÇAKICI", notes: "11, 14, 13", retards: 3, absences: 1 }
+        ],
+        "4C": [
+            { nom: "Kerrian CHABBERT", notes: "14, 15, 13", retards: 1, absences: 0 },
+            { nom: "Léo BOSSY", notes: "18, 17, 16", retards: 0, absences: 1 }
+        ]
+    };
+
+    document.getElementById('classe-selection').addEventListener('change', function() {
+        const classe = this.value;
+        const eleveDetails = document.getElementById('eleve-details');
+        eleveDetails.innerHTML = '';
+
+        if (eleves[classe]) {
+            eleves[classe].forEach(eleve => {
+                eleveDetails.innerHTML += `<p><strong>${eleve.nom}</strong><br>Notes: ${eleve.notes}<br>Retards: ${eleve.retards}<br>Absences: ${eleve.absences}</p>`;
+            });
         }
-        function showReport(classId) {
-            document.querySelectorAll('.notes-container').forEach(report => report.style.display = 'none');
-            if (classId) {
-                document.getElementById('report-' + classId).style.display = 'block';
-            }
-        }
-    </script>
+    });
+</script>
+
 </body>
+
 </html>
